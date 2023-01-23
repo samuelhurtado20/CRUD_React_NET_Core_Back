@@ -19,7 +19,7 @@ namespace CRUD_React_NET_Core_Back.Controllers
 
         // GET: api/<ManagersController>
         [HttpGet]
-        public ActionResult Get()
+        public IActionResult Get()
         {
             try
             {
@@ -34,11 +34,11 @@ namespace CRUD_React_NET_Core_Back.Controllers
 
         // GET api/<ManagersController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public IActionResult Get(int id)
         {
             try
             {
-                var single = _context.Managers.Where(c => c.Id == id);
+                var single = _context.Managers.FirstOrDefault(c => c.Id == id);
                 return Ok(single);
             }
             catch (Exception ex)
@@ -49,20 +49,56 @@ namespace CRUD_React_NET_Core_Back.Controllers
 
         // POST api/<ManagersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Managers value)
         {
+            try
+            {
+                var list = _context.Managers.Add(value);
+                _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         // PUT api/<ManagersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] Managers value)
         {
+            try
+            {
+                var list = _context.Managers.Update(value);
+                _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         // DELETE api/<ManagersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                var element = _context.Managers.Find(id);
+                if(element != null)
+                {
+                    _context.Managers.Remove(element);
+                    _context.SaveChangesAsync();
+                    return Ok();
+                }
+
+                return BadRequest("Invalid id");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }
