@@ -56,7 +56,7 @@ namespace CRUD_React_NET_Core_Back.Controllers
                 var list = _context.Managers.Add(value);
                 _context.SaveChangesAsync();
                 return Ok();
-            }
+        }
             catch (Exception ex)
             {
                 return StatusCode(500, ex);
@@ -74,7 +74,7 @@ namespace CRUD_React_NET_Core_Back.Controllers
                 return Ok();
             }
             catch (Exception ex)
-            {
+        {
                 return StatusCode(500, ex);
             }
         }
@@ -96,7 +96,7 @@ namespace CRUD_React_NET_Core_Back.Controllers
                 return BadRequest("Invalid id");
             }
             catch (Exception ex)
-            {
+        {
                 return StatusCode(500, ex);
             }
         }
